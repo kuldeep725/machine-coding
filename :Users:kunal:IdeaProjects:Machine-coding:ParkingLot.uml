@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/kunal/IdeaProjects/Machine-coding/ParkingLot</OriginalElement>
+  <nodes>
+    <node x="78.0" y="173.0">com.parkinglot.Ticket</node>
+    <node x="422.0" y="333.0">com.parkinglot.enums.SlotStatus</node>
+    <node x="184.0" y="-85.0">com.parkinglot.Floor</node>
+    <node x="241.0" y="333.0">com.parkinglot.enums.VehicleType</node>
+    <node x="-225.0" y="-85.0">com.parkinglot.Driver</node>
+    <node x="-164.0" y="173.0">com.parkinglot.Vehicle</node>
+    <node x="0.0" y="-85.0">com.parkinglot.ParkingLot</node>
+    <node x="353.0" y="-85.0">com.parkinglot.Slot</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.parkinglot.Driver" target="com.parkinglot.ParkingLot" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.parkinglot.Floor" target="com.parkinglot.Slot" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+    <edge source="com.parkinglot.ParkingLot" target="com.parkinglot.Floor" relationship="GENERALIZATION">
+      <point x="0.0" y="0.0" />
+      <point x="0.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="277.5" y="255.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
