@@ -4,14 +4,11 @@ import com.library.enums.RackStatus;
 
 public class Rack {
     private RackStatus status;
-    private String bookCopyId;
-    private int bookId;
+    private Book book;
 
-
-    public Rack(RackStatus status, int bookId, String bookCopyId) {
+    public Rack(RackStatus status, Book book) {
         this.status = status;
-        this.bookId = bookId;
-        this.bookCopyId = bookCopyId;
+        this.book = book;
     }
 
     public RackStatus getStatus() {
@@ -22,19 +19,11 @@ public class Rack {
         this.status = status;
     }
 
-    public String getBookCopyId() {
-        return bookCopyId;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookCopyId(String bookCopyId) {
-        this.bookCopyId = bookCopyId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
+    public void setBook(Book book) {
+        this.book = book;
     }
 }

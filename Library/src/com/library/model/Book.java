@@ -4,18 +4,18 @@ import java.util.List;
 
 public class Book {
     public static final Book EMPTY = new Book(-1, "", null, null, null);
-    private final List<String> bookCopyIds;
+    private final String bookCopyId;
     private final String title;
     private final List<String> authors;
     private final List<String> publishers;
     private final int bookId;
 
-    public Book(int bookId, String title, List<String> authors, List<String> publishers, List<String> bookCopyIds) {
+    public Book(int bookId, String title, List<String> authors, List<String> publishers, String bookCopyId) {
         this.bookId = bookId;
         this.title = title;
         this.authors = authors;
         this.publishers = publishers;
-        this.bookCopyIds = bookCopyIds;
+        this.bookCopyId = bookCopyId;
     }
 
     public int getBookId() {
@@ -34,8 +34,8 @@ public class Book {
         return publishers;
     }
 
-    public List<String> getBookCopyIds() {
-        return bookCopyIds;
+    public String getBookCopyId() {
+        return bookCopyId;
     }
 
 }

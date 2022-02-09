@@ -19,9 +19,23 @@ public class DefaultRackHandler implements RackHandler {
     }
 
     @Override
-    public Rack removeBook(List<Rack> racks, int bookId) throws BookNotAvailableException {
-        return racks.stream().filter(rack -> rack.getBookId() == bookId)
+    public Book takeBook(List<Rack> racks, int bookId) throws BookNotAvailableException {
+        Rack rack = racks.stream().filter(rck -> rck.getBook().getBookId() == bookId)
                 .findFirst().orElseThrow(BookNotAvailableException::new);
+        rack.setStatus(RackStatus.EMPTY);
+        rack.setBook(Book.EMPTY);
+
+        return rack.getBook();
+    }
+
+    @Override
+    public Book removeBook(List<Rack> racks, String bookCopyId) throws BookNotAvailableException {
+        Rack rack = racks.stream().filter(rck -> rck.getBook().getBookCopyId().equals(bookCopyId))
+                .findFirst().orElseThrow(BookNotAvailableException::new);
+        rack.setStatus(RackStatus.EMPTY);
+        rack.setBook(Book.EMPTY);
+
+        return rack.getBook();
     }
 
     @Override
@@ -32,12 +46,11 @@ public class DefaultRackHandler implements RackHandler {
     }
 
     @Override
-    public void addBook(List<Rack> racks, int bookId, String bookCopyId) throws RackNotAvailableException {
+    public void addBook(List<Rack> racks, Book book) throws RackNotAvailableException {
         Rack emptyRack = findEmptyRack(racks);
 
-        emptyRack.setBookCopyId(bookCopyId);
+        emptyRack.setBook(book);
         emptyRack.setStatus(RackStatus.OCCUPIED);
-        emptyRack.setBookId(bookId);
     }
 
 }

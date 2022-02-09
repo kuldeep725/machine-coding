@@ -2,8 +2,9 @@ package com.library;
 
 import com.library.enums.RackStatus;
 import com.library.exceptions.RackNotAvailableException;
-import com.library.handler.BookHandler;
+import com.library.handler.BorrowHandler;
 import com.library.handler.RackHandler;
+import com.library.handler.SearchHandler;
 import com.library.model.Book;
 import com.library.model.Rack;
 
@@ -13,16 +14,14 @@ import java.util.List;
 public class Library {
     private final List<Rack> racks;
     private final RackHandler rackHandler;
-    private final BookHandler bookHandler;
-    public static final String BOOK_ID = "book_id";
-    public static final String AUTHOR_ID = "author_id";
+    private final BorrowHandler borrowHandler;
 
-    public Library(int n, RackHandler bookHandler, BookHandler borrowHandler) {
-        this.rackHandler = bookHandler;
-        this.bookHandler = borrowHandler;
+    public Library(int n, RackHandler rackHandler, BorrowHandler borrowHandler) {
+        this.rackHandler = rackHandler;
+        this.borrowHandler = borrowHandler;
         racks = new ArrayList<>();
         for(int i = 0; i < n; i++) {
-            racks.add(new Rack(RackStatus.EMPTY, -1, ""));
+            racks.add(new Rack(RackStatus.EMPTY, Book.EMPTY));
         }
     }
 
@@ -31,35 +30,39 @@ public class Library {
         if(rackHandler.emptyRackCount(racks) < bookCopyIds.size())
             throw new RackNotAvailableException();
 
-        Book book = new Book(bookId, title, authors, publishers, bookCopyIds);
-        bookHandler.addBook(book);
-
         for (String bookCopyId : bookCopyIds) {
-            rackHandler.addBook(racks, bookId, bookCopyId);
+            Book book = new Book(bookId, title, authors, publishers, bookCopyId);
+
+            rackHandler.addBook(racks, book);
         }
 
     }
 
+    public void removeBookCopy(String bookCopyId) {
+        rackHandler.removeBook(racks, bookCopyId);
+    }
+
     public String borrowBook(int bookId, String userId) {
-        Rack rack = rackHandler.removeBook(racks, bookId);
+        Book book = rackHandler.takeBook(racks, bookId);
 
-        bookHandler.borrowBookCopy(rack.getBookCopyId(), userId);
+        borrowHandler.borrowBookCopy(book.getBookCopyId(), userId);
 
-        return rack.getBookCopyId();
+        return book.getBookCopyId();
     }
 
     public void returnBook(String bookCopyId, String userId) {
-        Book book = bookHandler.searchBook(BOOK_ID, bookCopyId);
+        Book book = SearchHandler.searchBook(racks, SearchHandler.BOOK_ID, bookCopyId);
 
-        bookHandler.returnBook(bookCopyId, userId);
-        rackHandler.addBook(racks, book.getBookId(), bookCopyId);
+        borrowHandler.returnBook(bookCopyId, userId);
+        rackHandler.addBook(racks, book);
     }
 
     public List<String> getBorrowedBooksByUser(String userId) {
-        return bookHandler.getBorrowedBooksByUser(userId);
+        return borrowHandler.getBorrowedBooksByUser(userId);
     }
 
-    public Book
-
+    public Book searchBook(String searchType, String value) {
+        return SearchHandler.searchBook(racks, searchType, value);
+    }
 
 }

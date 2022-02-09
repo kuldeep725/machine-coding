@@ -1,19 +1,15 @@
 package com.library.handler.impl;
 
-import com.library.exceptions.BookNotAvailableException;
 import com.library.exceptions.UnexpectedStateException;
-import com.library.handler.BookHandler;
-import com.library.handler.SearchHandler;
-import com.library.model.Book;
-import com.library.model.Rack;
+import com.library.handler.BorrowHandler;
 
 import java.util.*;
 
-public class DefaultBookHandler implements BookHandler {
+public class DefaultBorrowHandler implements BorrowHandler {
 
     private final Map<String, List<String>> userMap;
 
-    public DefaultBookHandler() {
+    public DefaultBorrowHandler() {
         userMap = new HashMap<>();
     }
 
@@ -34,11 +30,6 @@ public class DefaultBookHandler implements BookHandler {
         return userMap.get(userId);
     }
 
-//    @Override
-//    public void addBook(Book book) {
-//        books.add(book);
-//    }
-
     @Override
     public void returnBook(String bookCopyId, String userId) {
         if(!userMap.containsKey(userId))
@@ -46,19 +37,6 @@ public class DefaultBookHandler implements BookHandler {
 
         List<String> borrowedBooks = userMap.get(userId);
         borrowedBooks.remove(bookCopyId);
-    }
-
-    @Override
-    public Book searchBook(List<Rack> racks, String searchType, String value) throws BookNotAvailableException {
-        return switch (searchType) {
-            case "book_id" -> SearchHandler.searchByBookId(racks, Integer.parseInt(value));
-            case "author_id" -> SearchHandler.searchByAuthorId(racks, value);
-            case "book_copy_id" -> SearchHandler.searchByBookCopyId(racks, value);
-            case "title" -> SearchHandler.searchByTitle(racks, value);
-            case "publisher" -> SearchHandler.searchByPublisher(racks, value);
-            default -> Book.EMPTY;
-        };
-
     }
 
 
